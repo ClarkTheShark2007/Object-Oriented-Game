@@ -12,7 +12,7 @@ class Player {
   }
 
   void drawPlayer() {
-    playerLeftAcceleration = new PVector(-0.1, 0);
+    imageMode(CORNER);
     image(playerBlue, playerLocation.x, playerLocation.y);
     movePlayer();
     println(direction);

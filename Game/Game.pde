@@ -6,7 +6,7 @@ PImage wall[];
 int playerHealth = 4;
 
 void setup() {
-  size(1280, 1024);
+  size(1280, 1024, P2D);
   frameRate(60);
   player = new Player();
 
