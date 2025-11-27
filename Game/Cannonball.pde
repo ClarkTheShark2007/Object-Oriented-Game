@@ -14,9 +14,9 @@ class Cannonball {
     fireCooldown--;
     imageMode(CORNER);
     image(cannonBall, cannonballLocation.x, cannonballLocation.y);
-    rectMode(CENTER);
+    rectMode(CORNER);
     fill(255,255,255,50);
-    rect(cannonballLocation.x+633, cannonballLocation.y+652, 130, 120);
+    rect(cannonballLocation.x+566, cannonballLocation.y+598, 130, 120);
     if (isFired == true)
     {
       cannonballLocation.add(cannonballVelocity);
