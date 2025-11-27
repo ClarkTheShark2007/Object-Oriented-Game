@@ -1,3 +1,5 @@
+Player player;
+
 PImage grass;
 PImage wall[];
 
@@ -5,6 +7,9 @@ int playerHealth = 4;
 
 void setup() {
   size(1280, 1024);
+  
+  player = new Player();
+  
   grass = loadImage("Grass.png");
   wall = new PImage[5];
   wall[0] = loadImage("Wall0.png");
@@ -16,6 +21,7 @@ void setup() {
 
 void draw() {
   drawBackground();
+  player.drawPlayer();
 }
 
 void drawBackground() {
