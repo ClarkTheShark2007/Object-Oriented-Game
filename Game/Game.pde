@@ -1,4 +1,5 @@
 Player player;
+Cannonball cannonball;
 
 PImage grass;
 PImage wall[];
@@ -9,7 +10,8 @@ void setup() {
   size(1280, 1024, P2D);
   frameRate(60);
   player = new Player();
-
+  cannonball = new Cannonball();
+  
   grass = loadImage("Grass.png");
   wall = new PImage[5];
   wall[0] = loadImage("Wall0.png");
@@ -22,7 +24,7 @@ void setup() {
 void draw() {
   drawBackground();
   player.drawPlayer();
-  
+  cannonball.drawCannonball();
 }
 
 void drawBackground() {
@@ -31,15 +33,20 @@ void drawBackground() {
   image(wall[playerHealth], 0, 0);
 }
 
+void keyReleased() {
+  if (keyCode == LEFT || keyCode == RIGHT) {
+    player.direction = 0;
+  }
+}
+
 void keyPressed() {
   if (keyCode == LEFT) {
     player.direction = -1;
   } else if (keyCode == RIGHT) {
     player.direction = 1;
-  }
-}
-void keyReleased() {
-  if (keyCode == LEFT || keyCode == RIGHT) {
-    player.direction = 0;
+  } 
+  if (key == 'v')
+  {
+    cannonball.shootCannonball(player.playerLocation.x);
   }
 }

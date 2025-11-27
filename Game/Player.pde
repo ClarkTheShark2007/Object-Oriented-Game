@@ -16,8 +16,8 @@ class Player {
     image(playerBlue, playerLocation.x, playerLocation.y);
     movePlayer();
     checkPlayerPosistion();
-    println(direction);
-    println(playerVelocity);
+    //println(direction);
+    //println(playerVelocity);
   }
 
   void movePlayer() {
