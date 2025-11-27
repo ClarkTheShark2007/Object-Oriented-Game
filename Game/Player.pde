@@ -15,6 +15,7 @@ class Player {
     imageMode(CORNER);
     image(playerBlue, playerLocation.x, playerLocation.y);
     movePlayer();
+    checkPlayerPosistion();
     println(direction);
     println(playerVelocity);
   }
@@ -44,5 +45,18 @@ class Player {
         }
       }
     }
+  }
+  
+  void checkPlayerPosistion() {
+   if(playerLocation.x <= -640) 
+   {
+     playerLocation.x = playerLocation.x + 10;
+     playerVelocity.x = playerVelocity.x * -1;
+   }
+      if(playerLocation.x >= 640) 
+   {
+     playerLocation.x = playerLocation.x - 10;
+     playerVelocity.x = playerVelocity.x * -1;
+   }
   }
 }
