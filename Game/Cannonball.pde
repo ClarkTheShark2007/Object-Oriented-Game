@@ -5,18 +5,25 @@ class Cannonball {
   boolean isFired = false;
   PVector cannonballLocation = new PVector(0, height*2);
   PVector cannonballVelocity = new PVector(0, -8);
+  float cannonballX;
+  float cannonballY;
+  float cannonballRadius;
 
   Cannonball() {
     cannonBall = loadImage("CannonBall.png");
+    cannonballRadius = 80;
   }
 
   void drawCannonball() {
     fireCooldown--;
+    cannonballX = cannonballLocation.x+632;
+    cannonballY = cannonballLocation.y+657;
+    
     imageMode(CORNER);
     image(cannonBall, cannonballLocation.x, cannonballLocation.y);
-    rectMode(CORNER);
-    fill(255,255,255,50);
-    rect(cannonballLocation.x+566, cannonballLocation.y+598, 130, 120);
+    ellipseMode(CENTER);
+    fill(255,255,255,100);
+    circle(cannonballX, cannonballY, cannonballRadius);
     if (isFired == true)
     {
       cannonballLocation.add(cannonballVelocity);

@@ -1,5 +1,6 @@
 Player player;
 Cannonball cannonball;
+Hamster[] hamster = new Hamster[8];
 
 PImage grass;
 PImage wall[];
@@ -11,7 +12,7 @@ void setup() {
   frameRate(60);
   player = new Player();
   cannonball = new Cannonball();
-  
+
   grass = loadImage("Grass.png");
   wall = new PImage[5];
   wall[0] = loadImage("Wall0.png");
@@ -19,34 +20,43 @@ void setup() {
   wall[2] = loadImage("Wall2.png");
   wall[3] = loadImage("Wall3.png");
   wall[4] = loadImage("Wall4.png");
+
+  for (int i=0; i<hamster.length; i++) {
+    float x = int(random(50, width-50)/50) * 50;
+    float y = int(random(50, height-300)/50) * 50;
+    hamster[i] = new Hamster(x, y, 50, 50);
+  }
 }
 
 void draw() {
   drawBackground();
   player.drawPlayer();
-  cannonball.drawCannonball();
-}
-
-void drawBackground() {
-  imageMode(CORNER);
-  image(grass, 0, 0);
-  image(wall[playerHealth], 0, 0);
-}
-
-void keyReleased() {
-  if (keyCode == LEFT || keyCode == RIGHT) {
-    player.direction = 0;
+  for (int i = 0; i < hamster.length; i++) {
+      hamster[i].checkCollision(cannonball);
+      hamster[i].display();
+    }
+    cannonball.drawCannonball();
   }
-}
-
-void keyPressed() {
-  if (keyCode == LEFT) {
-    player.direction = -1;
-  } else if (keyCode == RIGHT) {
-    player.direction = 1;
-  } 
-  if (key == 'v')
-  {
-    cannonball.shootCannonball(player.playerLocation.x);
+  void drawBackground() {
+    imageMode(CORNER);
+    image(grass, 0, 0);
+    image(wall[playerHealth], 0, 0);
   }
-}
+
+  void keyReleased() {
+    if (keyCode == LEFT || keyCode == RIGHT) {
+      player.direction = 0;
+    }
+  }
+
+  void keyPressed() {
+    if (keyCode == LEFT) {
+      player.direction = -1;
+    } else if (keyCode == RIGHT) {
+      player.direction = 1;
+    }
+    if (key == 'v')
+    {
+      cannonball.shootCannonball(player.playerLocation.x);
+    }
+  }
