@@ -7,9 +7,9 @@ int playerHealth = 4;
 
 void setup() {
   size(1280, 1024);
-  
+  frameRate(60);
   player = new Player();
-  
+
   grass = loadImage("Grass.png");
   wall = new PImage[5];
   wall[0] = loadImage("Wall0.png");
@@ -22,6 +22,7 @@ void setup() {
 void draw() {
   drawBackground();
   player.drawPlayer();
+  
 }
 
 void drawBackground() {
@@ -31,5 +32,14 @@ void drawBackground() {
 }
 
 void keyPressed() {
- playerHealth = playerHealth - 1; 
+  if (keyCode == LEFT) {
+    player.direction = -1;
+  } else if (keyCode == RIGHT) {
+    player.direction = 1;
+  }
+}
+void keyReleased() {
+  if (keyCode == LEFT || keyCode == RIGHT) {
+    player.direction = 0;
+  }
 }
