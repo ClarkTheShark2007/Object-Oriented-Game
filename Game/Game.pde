@@ -9,7 +9,7 @@ static int playerHealth = 4;
 
 int hasmterToSpawn = 0;
 static int totalHamstersKilled = 0;
-int totalWaves = 0;
+static int totalWaves = 0;
 
 
 void setup() {
@@ -51,7 +51,7 @@ void checkToSpawnHamsters()
   if (totalHamstersKilled >= hasmterToSpawn)
   {
     totalWaves++;
-    hasmterToSpawn = int(random(1, 3 + totalWaves));
+    hasmterToSpawn = int(random(1, totalWaves));
     for (int i = 0; i < hasmterToSpawn; i++) {
       hamster[i].respawn();
     }
@@ -61,7 +61,7 @@ void checkToSpawnHamsters()
     hamster[i].checkCollision(cannonball);
     hamster[i].display();
   }
-  println(hasmterToSpawn + " " + totalHamstersKilled);
+  println(hasmterToSpawn + " " + totalHamstersKilled + " " + totalWaves);
 }
 
 void keyReleased() {

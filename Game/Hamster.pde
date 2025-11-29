@@ -13,6 +13,7 @@ class Hamster {
   int hamsterHealth = 1;
   int hamsterAnimationSpeed = 18;
   float hitCooldown = 0;
+  float hamsterRangeCooldown = 120;
 
   float hamstehw;
   float hamstehh;
@@ -92,7 +93,27 @@ class Hamster {
     }
   }
 
+  void hamsterRangeAttack() {
+    if (hamsterLocation.y >= height/3)
+    {
+      hamsterSpeed = 0;
+      hamsterRangeCooldown--;
+      if (hamsterRangeCooldown <= 0)
+      {
+        playerHealth--;
+        hamsterRangeCooldown = 240;
+      }
+    }
+  }
   void randomHamster() {
+    if (totalWaves == 1) {
+      hamsterType = int(random(1, 2));
+    } else if (totalWaves <= 6) {
+      hamsterType = int(random(1, 3));
+    } else if (totalWaves >= 6) {
+      hamsterType = int(random(1, 5));
+    }
+
     hamsterType = int(random(1, 5));
     if (hamsterType == 1) {
       hamsterSpeed = 1;
@@ -153,7 +174,7 @@ class Hamster {
     imageMode(CENTER);
     image(hamsterGunner[hamsterFrame], hamsterLocation.x, hamsterLocation.y);
     hamsterLocation.y = hamsterLocation.y + hamsterSpeed;
-    hamsterAttack();
+    hamsterRangeAttack();
   }
 }
 
