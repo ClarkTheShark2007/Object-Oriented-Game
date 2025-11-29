@@ -1,8 +1,8 @@
 class Hamster {
   //Collison Guide code based off https://www.jeffreythompson.org/collision-detection/object_oriented_collision.php
 
-  Player player;
-  PImage hamster;
+  PImage hamsterNormal[];
+  int hamsterFrame;
   float hamstehw;
   float hamstehh;
   PVector hamsterLocation = new PVector(0, 0);
@@ -11,8 +11,9 @@ class Hamster {
   boolean dead = false;
 
   Hamster (float _x, float _y, float _w, float _h) {
-    hamster = loadImage("Hamster1.png");
-    player = new Player();
+    hamsterNormal = new PImage[2];
+    hamsterNormal[0] = loadImage("Hamster0.png");
+    hamsterNormal[1] = loadImage("Hamster1.png");
 
     hamsterLocation.x = _x;
     hamsterLocation.y = _y;
@@ -36,8 +37,11 @@ class Hamster {
     if (dead == false) {
       fill(0, 150, 255);
       noStroke();
+      if (frameCount % 10 == 0) {
+        hamsterFrame = (hamsterFrame + 1) %  hamsterNormal.length;
+      }
       imageMode(CENTER);
-      image(hamster, hamsterLocation.x, hamsterLocation.y);
+      image(hamsterNormal[hamsterFrame], hamsterLocation.x, hamsterLocation.y);
       hamsterLocation.add(hamsterVelocity);
       hamsterAttack();
 
