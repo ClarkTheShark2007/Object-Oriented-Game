@@ -2,18 +2,40 @@ class Hamster {
   //Collison Guide code based off https://www.jeffreythompson.org/collision-detection/object_oriented_collision.php
 
   PImage hamsterNormal[];
+  PImage hamsterKnight[];
+  PImage hamsterBomber[];
+  PImage hamsterGunner[];
+
   int hamsterFrame;
+  int hamsterType = 1;
+
+  float hamsterSpeed = 1;
+  int hamsterHealth = 1;
+  int hamsterAnimationSpeed = 18;
+  float hitCooldown = 0;
+
   float hamstehw;
   float hamstehh;
   PVector hamsterLocation = new PVector(0, 0);
   PVector hamsterVelocity = new PVector(0, 1);
   boolean hit = false;
-  boolean dead = false;
 
   Hamster (float _x, float _y, float _w, float _h) {
     hamsterNormal = new PImage[2];
-    hamsterNormal[0] = loadImage("Hamster0.png");
-    hamsterNormal[1] = loadImage("Hamster1.png");
+    hamsterNormal[0] = loadImage("1Hamster0.png");
+    hamsterNormal[1] = loadImage("1Hamster1.png");
+
+    hamsterKnight = new PImage[2];
+    hamsterKnight[0] = loadImage("2Hamster0.png");
+    hamsterKnight[1] = loadImage("2Hamster1.png");
+
+    hamsterBomber = new PImage[2];
+    hamsterBomber[0] = loadImage("3Hamster0.png");
+    hamsterBomber[1] = loadImage("3Hamster1.png");
+
+    hamsterGunner = new PImage[2];
+    hamsterGunner[0] = loadImage("4Hamster0.png");
+    hamsterGunner[1] = loadImage("4Hamster1.png");
 
     hamsterLocation.x = _x;
     hamsterLocation.y = _y;
@@ -28,32 +50,36 @@ class Hamster {
   }
 
   void display() {
-    if (hit == true) {
-      Game.totalHamstersKilled++;
-      hamsterLocation.x = width + 100;
-      hamsterLocation.y = height + 100;
-      dead = true;
-    }
-    if (dead == false) {
-      fill(0, 150, 255);
-      noStroke();
-      if (frameCount % 10 == 0) {
-        hamsterFrame = (hamsterFrame + 1) %  hamsterNormal.length;
-      }
-      imageMode(CENTER);
-      image(hamsterNormal[hamsterFrame], hamsterLocation.x, hamsterLocation.y);
-      hamsterLocation.add(hamsterVelocity);
-      hamsterAttack();
+    hitCooldown--;
 
-      //rectMode(CORNER);
-      //rect(hamsterLocation.x, hamsterLocation.y, hamstehw, hamstehh);
+    if (hit && hitCooldown <= 0)
+    {
+      hitCooldown = 30;
+      hamsterHealth--;
+      if (hamsterHealth <= 0) {
+        Game.totalHamstersKilled++;
+        hamsterLocation.x = -9999;
+        hamsterLocation.y = -9999;
+      }
+    }
+    if (hamsterHealth >= 0 && hamsterType == 1) {
+      normalHamster();
+    } else if (hamsterHealth >= 0 && hamsterType == 2)
+    {
+      knightHamster();
+    } else if (hamsterHealth >= 0 && hamsterType == 3)
+    {
+      bomberHamster();
+    } else if (hamsterHealth >= 0 && hamsterType == 4)
+    {
+      gunnerHamster();
     }
   }
 
   void respawn() {
-    hamsterLocation.x = int(random(50, width-50)/50) * 50;
-    hamsterLocation.y = int(random(-100, 0)/50) * 50;
-    dead = false;
+    randomHamster();
+    hamsterLocation.x = int(random(50, width-50));
+    hamsterLocation.y = int(random(-100, -300));
     totalHamstersKilled = 0;
   }
 
@@ -61,32 +87,96 @@ class Hamster {
     if (hamsterLocation.y >= 724)
     {
       playerHealth--;
-      hamsterLocation.x = int(random(50, width-50)/50) * 50;
-      hamsterLocation.y = int(random(-100, 0)/50) * 50;
+      hamsterLocation.x = int(random(50, width-50));
+      hamsterLocation.y = int(random(-300, -100));
     }
   }
 
-  boolean hamsterCannonball(float cx, float cy, float radius, float hx, float hy, float hw, float hh) {
-
-    // temporahy variables to set edges for testing
-    float testX = cx;
-    float testY = cy;
-
-    // which edge is closest?
-    if (cx < hx)         testX = hx;      // compare left edge
-    else if (cx > hx+hw) testX = hx+hw;   // right edge
-    if (cy < hy)         testY = hy;      // top edge
-    else if (cy > hy+hh) testY = hy+hh;   // bottom edge
-
-    // get distance from closest edges
-    float distX = cx-testX;
-    float distY = cy-testY;
-    float distance = sqrt( (distX*distX) + (distY*distY) );
-
-    // if the distance is less than the radius, collision!
-    if (distance <= radius) {
-      return true;
+  void randomHamster() {
+    hamsterType = int(random(1, 5));
+    if (hamsterType == 1) {
+      hamsterSpeed = 1;
+      hamsterHealth = 1;
+      hamsterAnimationSpeed = 18;
+    } else if (hamsterType == 2)
+    {
+      hamsterSpeed = .5;
+      hamsterHealth = 3;
+      hamsterAnimationSpeed = 28;
+    } else if (hamsterType == 3)
+    {
+      hamsterSpeed = 2.5;
+      hamsterHealth = 1;
+      hamsterAnimationSpeed = 4;
+    } else if (hamsterType == 4)
+    {
+      hamsterSpeed = .75;
+      hamsterHealth = 2;
+      hamsterAnimationSpeed = 24;
     }
-    return false;
   }
+
+  void normalHamster() {
+    if (frameCount % hamsterAnimationSpeed == 0) {
+      hamsterFrame = (hamsterFrame + 1) %  hamsterNormal.length;
+    }
+    imageMode(CENTER);
+    image(hamsterNormal[hamsterFrame], hamsterLocation.x, hamsterLocation.y);
+    hamsterLocation.y = hamsterLocation.y + hamsterSpeed;
+    hamsterAttack();
+  }
+
+  void knightHamster() {
+    if (frameCount % hamsterAnimationSpeed == 0) {
+      hamsterFrame = (hamsterFrame + 1) %  hamsterNormal.length;
+    }
+    imageMode(CENTER);
+    image(hamsterKnight[hamsterFrame], hamsterLocation.x, hamsterLocation.y);
+    hamsterLocation.y = hamsterLocation.y + hamsterSpeed;
+    hamsterAttack();
+  }
+
+  void bomberHamster() {
+    if (frameCount % hamsterAnimationSpeed == 0) {
+      hamsterFrame = (hamsterFrame + 1) %  hamsterNormal.length;
+    }
+    imageMode(CENTER);
+    image(hamsterBomber[hamsterFrame], hamsterLocation.x, hamsterLocation.y);
+    hamsterLocation.y = hamsterLocation.y + hamsterSpeed;
+    hamsterAttack();
+  }
+
+  void gunnerHamster() {
+    if (frameCount % hamsterAnimationSpeed == 0) {
+      hamsterFrame = (hamsterFrame + 1) %  hamsterNormal.length;
+    }
+    imageMode(CENTER);
+    image(hamsterGunner[hamsterFrame], hamsterLocation.x, hamsterLocation.y);
+    hamsterLocation.y = hamsterLocation.y + hamsterSpeed;
+    hamsterAttack();
+  }
+}
+
+boolean hamsterCannonball(float cx, float cy, float radius, float hx, float hy, float hw, float hh) {
+
+  // temporahy variables to set edges for testing
+  float testX = cx;
+  float testY = cy;
+
+  // which edge is closest?
+  if (cx < hx)         testX = hx;      // compare left edge
+  else if (cx > hx+hw) testX = hx+hw;   // right edge
+  if (cy < hy)         testY = hy;      // top edge
+  else if (cy > hy+hh) testY = hy+hh;   // bottom edge
+
+  // get distance from closest edges
+  float distX = cx-testX;
+  float distY = cy-testY;
+  float distance = sqrt( (distX*distX) + (distY*distY) );
+
+  // if the distance is less than the radius, collision!
+  if (distance <= radius) {
+    return true;
+  }
+  return false;
 }

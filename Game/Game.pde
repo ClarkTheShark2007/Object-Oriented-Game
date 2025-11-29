@@ -27,8 +27,8 @@ void setup() {
   wall[4] = loadImage("Wall4.png");
 
   for (int i=0; i<hamster.length; i++) {
-    float x = int(random(50, width-50)/50) * 50;
-    float y = int(random(50, height-300)/50) * 50;
+    float x = int(random(50, width-50));
+    float y = int(random(-300, -100));
     hamster[i] = new Hamster(x, y, 50, 50);
   }
 }
@@ -51,7 +51,7 @@ void checkToSpawnHamsters()
   if (totalHamstersKilled >= hasmterToSpawn)
   {
     totalWaves++;
-    hasmterToSpawn = int(random(1, 3)) + totalWaves;
+    hasmterToSpawn = int(random(1, 3 + totalWaves));
     for (int i = 0; i < hasmterToSpawn; i++) {
       hamster[i].respawn();
     }
