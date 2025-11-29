@@ -3,10 +3,10 @@ class Hamster {
 
   Player player;
   PImage hamster;
-  float hamstehx;
-  float hamstehy;
   float hamstehw;
   float hamstehh;
+  PVector hamsterLocation = new PVector(0, 0);
+  PVector hamsterVelocity = new PVector(0, 1);
   boolean hit = false;
   boolean dead = false;
 
@@ -14,8 +14,8 @@ class Hamster {
     hamster = loadImage("Hamster1.png");
     player = new Player();
 
-    hamstehx = _x;
-    hamstehy = _y;
+    hamsterLocation.x = _x;
+    hamsterLocation.y = _y;
     hamstehw = _w;
     hamstehh = _h;
   }
@@ -23,23 +23,42 @@ class Hamster {
   // draw the rectangle
   // if hit, change the fill color
   void checkCollision(Cannonball c) {
-    hit = hamsterCannonball(c.cannonballX, c.cannonballY, c.cannonballRadius, hamstehx, hamstehy, hamstehw, hamstehh);
+    hit = hamsterCannonball(c.cannonballX, c.cannonballY, c.cannonballRadius, hamsterLocation.x, hamsterLocation.y, hamstehw, hamstehh);
   }
 
   void display() {
     if (hit == true) {
       Game.totalHamstersKilled++;
-      hamstehx = width + 100;
-      hamstehy = height + 100;
+      hamsterLocation.x = width + 100;
+      hamsterLocation.y = height + 100;
       dead = true;
     }
     if (dead == false) {
       fill(0, 150, 255);
       noStroke();
       imageMode(CENTER);
-      image(hamster, hamstehx, hamstehy);
+      image(hamster, hamsterLocation.x, hamsterLocation.y);
+      hamsterLocation.add(hamsterVelocity);
+      hamsterAttack();
+
       //rectMode(CORNER);
-      //rect(hamstehx, hamstehy, hamstehw, hamstehh);
+      //rect(hamsterLocation.x, hamsterLocation.y, hamstehw, hamstehh);
+    }
+  }
+
+  void respawn() {
+    hamsterLocation.x = int(random(50, width-50)/50) * 50;
+    hamsterLocation.y = int(random(-100, 0)/50) * 50;
+    dead = false;
+    totalHamstersKilled = 0;
+  }
+
+  void hamsterAttack() {
+    if (hamsterLocation.y >= 724)
+    {
+      playerHealth--;
+      hamsterLocation.x = int(random(50, width-50)/50) * 50;
+      hamsterLocation.y = int(random(-100, 0)/50) * 50;
     }
   }
 

@@ -5,7 +5,7 @@ Hamster[] hamster = new Hamster[100];
 PImage grass;
 PImage wall[];
 
-int playerHealth = 4;
+static int playerHealth = 4;
 
 int hasmterToSpawn = 0;
 static int totalHamstersKilled = 0;
@@ -51,10 +51,9 @@ void checkToSpawnHamsters()
   if (totalHamstersKilled >= hasmterToSpawn)
   {
     totalWaves++;
-    hasmterToSpawn = int(random(1, 3) + totalWaves);
+    hasmterToSpawn = int(random(1, 3)) + totalWaves;
     for (int i = 0; i < hasmterToSpawn; i++) {
-      hamster[i].checkCollision(cannonball);
-      hamster[i].display();
+      hamster[i].respawn();
     }
   }
 
