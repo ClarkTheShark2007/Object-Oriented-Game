@@ -1,11 +1,16 @@
 Player player;
 Cannonball cannonball;
-Hamster[] hamster = new Hamster[8];
+Hamster[] hamster = new Hamster[100];
 
 PImage grass;
 PImage wall[];
 
 int playerHealth = 4;
+
+int hasmterToSpawn = 0;
+static int totalHamstersKilled = 0;
+int totalWaves = 0;
+
 
 void setup() {
   size(1280, 1024, P2D);
@@ -31,32 +36,49 @@ void setup() {
 void draw() {
   drawBackground();
   player.drawPlayer();
-  for (int i = 0; i < hamster.length; i++) {
+  checkToSpawnHamsters();
+  cannonball.drawCannonball();
+}
+
+void drawBackground() {
+  imageMode(CORNER);
+  image(grass, 0, 0);
+  image(wall[playerHealth], 0, 0);
+}
+
+void checkToSpawnHamsters()
+{
+  if (totalHamstersKilled >= hasmterToSpawn)
+  {
+    totalWaves++;
+    hasmterToSpawn = int(random(1, 3) + totalWaves);
+    for (int i = 0; i < hasmterToSpawn; i++) {
       hamster[i].checkCollision(cannonball);
       hamster[i].display();
     }
-    cannonball.drawCannonball();
-  }
-  void drawBackground() {
-    imageMode(CORNER);
-    image(grass, 0, 0);
-    image(wall[playerHealth], 0, 0);
   }
 
-  void keyReleased() {
-    if (keyCode == LEFT || keyCode == RIGHT) {
-      player.direction = 0;
-    }
+  for (int i = 0; i < hasmterToSpawn; i++) {
+    hamster[i].checkCollision(cannonball);
+    hamster[i].display();
   }
+  println(hasmterToSpawn + " " + totalHamstersKilled);
+}
 
-  void keyPressed() {
-    if (keyCode == LEFT) {
-      player.direction = -1;
-    } else if (keyCode == RIGHT) {
-      player.direction = 1;
-    }
-    if (key == 'v')
-    {
-      cannonball.shootCannonball(player.playerLocation.x);
-    }
+void keyReleased() {
+  if (keyCode == LEFT || keyCode == RIGHT) {
+    player.direction = 0;
   }
+}
+
+void keyPressed() {
+  if (keyCode == LEFT) {
+    player.direction = -1;
+  } else if (keyCode == RIGHT) {
+    player.direction = 1;
+  }
+  if (key == 'v')
+  {
+    cannonball.shootCannonball(player.playerLocation.x);
+  }
+}

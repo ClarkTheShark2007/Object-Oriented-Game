@@ -1,14 +1,19 @@
 class Hamster {
   //Collison Guide code based off https://www.jeffreythompson.org/collision-detection/object_oriented_collision.php
 
+  Player player;
+  PImage hamster;
   float hamstehx;
   float hamstehy;
   float hamstehw;
   float hamstehh;
   boolean hit = false;
-  boolean killed = false;
+  boolean dead = false;
 
   Hamster (float _x, float _y, float _w, float _h) {
+    hamster = loadImage("Hamster1.png");
+    player = new Player();
+
     hamstehx = _x;
     hamstehy = _y;
     hamstehw = _w;
@@ -23,12 +28,18 @@ class Hamster {
 
   void display() {
     if (hit == true) {
-      killed = true;
-    } else if (killed == false) {
+      Game.totalHamstersKilled++;
+      hamstehx = width + 100;
+      hamstehy = height + 100;
+      dead = true;
+    }
+    if (dead == false) {
       fill(0, 150, 255);
       noStroke();
-      rectMode(CORNER);
-      rect(hamstehx, hamstehy, hamstehw, hamstehh);
+      imageMode(CENTER);
+      image(hamster, hamstehx, hamstehy);
+      //rectMode(CORNER);
+      //rect(hamstehx, hamstehy, hamstehw, hamstehh);
     }
   }
 
