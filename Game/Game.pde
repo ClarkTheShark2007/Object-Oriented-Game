@@ -1,6 +1,8 @@
 States state;
 Player player;
+Player2 player2;
 Cannonball cannonball;
+Cannonball2 cannonball2;
 Hamster[] hamster = new Hamster[100];
 
 PImage selected[];
@@ -21,16 +23,18 @@ static int totalWaves = 0;
 void setup() {
   size(1280, 1024, P2D);
   frameRate(60);
-  player = new Player();
-  cannonball = new Cannonball();
   state = new States();
+  player = new Player();
+  player2 = new Player2();
+  cannonball = new Cannonball();
+  cannonball2 = new Cannonball2();
 
   grass = loadImage("Grass.png");
-  
+
   selected = new PImage[2];
   selected[0] = loadImage("Selected0.png");
   selected[1] = loadImage("Selected1.png");
-  
+
   wall = new PImage[5];
   wall[0] = loadImage("Wall0.png");
   wall[1] = loadImage("Wall1.png");
@@ -51,8 +55,6 @@ void draw() {
     imageMode(CORNER);
     image(selected[P2Selected], 0, 0);
     println(P2Selected);
-    
-    
   }
   if (playerHealth <= 0) {
     state.gameOver();
@@ -61,12 +63,17 @@ void draw() {
       hasmterToSpawn = 0;
       totalHamstersKilled = 0;
       totalWaves = 0;
+      newGame = true;
     }
   } else if (newGame == false) {
     drawBackground();
     player.drawPlayer();
     checkToSpawnHamsters();
     cannonball.drawCannonball();
+    if (P2Selected == 1) {
+      player2.drawPlayer();
+      cannonball2.drawCannonball();
+    }
   }
 }
 
@@ -89,6 +96,7 @@ void checkToSpawnHamsters()
 
   for (int i = 0; i < hasmterToSpawn; i++) {
     hamster[i].checkCollision(cannonball);
+    hamster[i].checkCollision2(cannonball);
     hamster[i].display();
   }
   println(hasmterToSpawn + " " + totalHamstersKilled + " " + totalWaves);
@@ -98,27 +106,43 @@ void keyReleased() {
   if (key == 'a' || key == 'd') {
     player.direction = 0;
   }
+  
+  if(keyCode == LEFT || keyCode == RIGHT) {
+    player2.direction = 0;
+  }
 }
 
 void keyPressed() {
   if (key == 'a') {
-     if(newGame == true) 
+    if (newGame == true)
     {
       P2Selected = 0;
     }
     player.direction = -1;
   } else if (key == 'd') {
-    if(newGame == true) 
+    if (newGame == true)
     {
       P2Selected = 1;
     }
     player.direction = 1;
   }
-  if (key == 'v')
+  if (key == 'r' || key == 't' || key == 'y' || key == 'f' || key == 'g' || key == 'h' || key == 'v' || key == 'b')
   {
-    if(newGame == true) { 
+    if (newGame == true) {
       newGame = false;
     }
     cannonball.shootCannonball(player.playerLocation.x);
+  }
+  if (P2Selected == 1 && newGame == false)
+  {
+    if (keyCode == LEFT) {
+      player2.direction = -1;
+    } else if (keyCode == RIGHT) {
+      player2.direction = 1;
+    }
+    if (key == 'o' || key == 'p' || key == '[' || key == 'i' || key == ';' || key == 'h' || key == '.' || key == '/')
+    {
+      cannonball2.shootCannonball(player2.player2Location.x);
+    }
   }
 }

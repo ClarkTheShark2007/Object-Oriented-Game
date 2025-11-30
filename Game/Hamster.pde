@@ -20,6 +20,7 @@ class Hamster {
   PVector hamsterLocation = new PVector(0, 0);
   PVector hamsterVelocity = new PVector(0, 1);
   boolean hit = false;
+  boolean hit2 = false;
 
   Hamster (float _x, float _y, float _w, float _h) {
     hamsterNormal = new PImage[2];
@@ -50,10 +51,14 @@ class Hamster {
     hit = hamsterCannonball(c.cannonballX, c.cannonballY, c.cannonballRadius, hamsterLocation.x, hamsterLocation.y, hamstehw, hamstehh);
   }
 
+  void checkCollision2(Cannonball2 c) {
+    hit2 = hamsterCannonball2(c.cannonball2X, c.cannonball2Y, c.cannonball2Radius, hamsterLocation.x, hamsterLocation.y, hamstehw, hamstehh);
+  }
+
   void display() {
     hitCooldown--;
 
-    if (hit && hitCooldown <= 0)
+    if (hit && hitCooldown <= 0 || hit2 && hitCooldown <= 0 )
     {
       hitCooldown = 30;
       hamsterHealth--;
@@ -197,6 +202,30 @@ boolean hamsterCannonball(float cx, float cy, float radius, float hx, float hy, 
 
   // if the distance is less than the radius, collision!
   if (distance <= radius) {
+    return true;
+  }
+  return false;
+}
+
+boolean hamsterCannonball2(float cx2, float cy2, float radius2, float hx, float hy, float hw, float hh) {
+
+  // temporahy variables to set edges for testing
+  float testX = cx2;
+  float testY = cy2;
+
+  // which edge is closest?
+  if (cx2 < hx)         testX = hx;      // compare left edge
+  else if (cx2 > hx+hw) testX = hx+hw;   // right edge
+  if (cy2 < hy)         testY = hy;      // top edge
+  else if (cy2 > hy+hh) testY = hy+hh;   // bottom edge
+
+  // get distance from closest edges
+  float distX = cx2-testX;
+  float distY = cy2-testY;
+  float distance = sqrt( (distX*distX) + (distY*distY) );
+
+  // if the distance is less than the radius, collision!
+  if (distance <= radius2) {
     return true;
   }
   return false;
