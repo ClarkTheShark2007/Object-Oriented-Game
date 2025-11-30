@@ -1,9 +1,16 @@
+import processing.sound.*;
 States state;
 Player player;
 Player2 player2;
 Cannonball cannonball;
 Cannonball2 cannonball2;
 Hamster[] hamster = new Hamster[100];
+
+SoundFile music;
+SoundFile fire;
+SoundFile gun;
+SoundFile broken;
+SoundFile explosion;
 
 PImage selected[];
 PImage grass;
@@ -24,11 +31,16 @@ static int totalWaves = 0;
 void setup() {
   size(1280, 1024, P2D);
   frameRate(60);
-  state = new States();
-  player = new Player();
-  player2 = new Player2();
-  cannonball = new Cannonball();
-  cannonball2 = new Cannonball2();
+
+  music = new SoundFile(this, "Background.wav");
+  music.loop();
+
+  fire = new SoundFile(this, "Cannon.wav");
+  gun = new SoundFile(this, "Gun.wav");
+  broken = new SoundFile(this, "Damage.wav");
+  explosion = new SoundFile(this, "Explosion.wav");
+
+
 
   grass = loadImage("Grass.png");
   round = loadImage("RoundsBar.png");
@@ -43,6 +55,12 @@ void setup() {
   wall[2] = loadImage("Wall2.png");
   wall[3] = loadImage("Wall3.png");
   wall[4] = loadImage("Wall4.png");
+
+  state = new States();
+  player = new Player();
+  player2 = new Player2();
+  cannonball = new Cannonball();
+  cannonball2 = new Cannonball2();
 
   for (int i=0; i<hamster.length; i++) {
     float x = int(random(50, width-50));
@@ -90,7 +108,7 @@ void drawBackground() {
 void drawUI() {
   imageMode(CORNER);
   image(round, 0, 0);
-  textSize(32);
+  textSize(42);
   fill(255);
   textAlign(CENTER);
   text("Round " + totalWaves, width/2, 50);

@@ -23,8 +23,6 @@ class Player2 {
     image(playerRed, player2Location.x, player2Location.y);
     movePlayer();
     checkPlayerPosistion();
-    //println(direction);
-    //println(player2Velocity);
   }
 
   void checkCollisionPlayer2(Player p) {

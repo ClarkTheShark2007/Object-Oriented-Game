@@ -34,6 +34,7 @@ class Cannonball2 {
   void shootCannonball(float playerPostion) {
     if (fireCooldown2 <= 0)
     {
+      fire.play();
       cannonball2Location.x = playerPostion;
       cannonball2Location.y = 100;
       isFired2 = true;

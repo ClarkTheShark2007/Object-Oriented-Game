@@ -99,6 +99,12 @@ class Hamster {
       playerHealth--;
       hamsterLocation.x = int(random(50, width-50));
       hamsterLocation.y = int(random(-300, -100));
+      if(hamsterType == 3) {
+        explosion.play();
+      } else 
+      {
+        broken.play();
+      }
     }
   }
 
@@ -109,6 +115,7 @@ class Hamster {
       hamsterRangeCooldown--;
       if (hamsterRangeCooldown <= 0)
       {
+        gun.play();
         playerHealth--;
         hamsterRangeCooldown = 240;
       }

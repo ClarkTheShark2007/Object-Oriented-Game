@@ -1,5 +1,5 @@
 class Cannonball {
-
+  
   PImage cannonBall;
   float fireCooldown = 0;
   boolean isFired = false;
@@ -12,17 +12,18 @@ class Cannonball {
   Cannonball() {
     cannonBall = loadImage("CannonBall.png");
     cannonballRadius = 80;
+    
   }
 
   void drawCannonball() {
     fireCooldown--;
     cannonballX = cannonballLocation.x+632;
     cannonballY = cannonballLocation.y+657;
-    
+
     imageMode(CORNER);
     image(cannonBall, cannonballLocation.x, cannonballLocation.y);
     ellipseMode(CENTER);
-    fill(255,255,255,100);
+    fill(255, 255, 255, 100);
     //circle(cannonballX, cannonballY, cannonballRadius);
     if (isFired == true)
     {
@@ -34,6 +35,7 @@ class Cannonball {
   void shootCannonball(float playerPostion) {
     if (fireCooldown <= 0)
     {
+      fire.play();
       cannonballLocation.x = playerPostion;
       cannonballLocation.y = 100;
       isFired = true;
@@ -44,7 +46,7 @@ class Cannonball {
       println("Cooldown!");
     }
   }
-  
+
   void hitHamster() {
     cannonballLocation.y = -9999;
     fireCooldown = 0;
