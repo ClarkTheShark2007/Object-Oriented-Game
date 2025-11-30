@@ -23,7 +23,7 @@ class Cannonball2 {
     image(cannonBall, cannonball2Location.x, cannonball2Location.y);
     ellipseMode(CENTER);
     fill(255,255,255,100);
-    circle(cannonball2X, cannonball2Y, cannonball2Radius);
+    //circle(cannonball2X, cannonball2Y, cannonball2Radius);
     if (isFired2 == true)
     {
       cannonball2Location.add(cannonball2Velocity);

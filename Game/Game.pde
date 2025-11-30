@@ -54,7 +54,6 @@ void draw() {
     state.title();
     imageMode(CORNER);
     image(selected[P2Selected], 0, 0);
-    println(P2Selected);
   }
   if (playerHealth <= 0) {
     state.gameOver();
@@ -68,6 +67,8 @@ void draw() {
   } else if (newGame == false) {
     drawBackground();
     player.drawPlayer();
+    player.checkCollisionPlayer1(player2);
+    player2.checkCollisionPlayer2(player);
     checkToSpawnHamsters();
     cannonball.drawCannonball();
     if (P2Selected == 1) {
@@ -96,10 +97,9 @@ void checkToSpawnHamsters()
 
   for (int i = 0; i < hasmterToSpawn; i++) {
     hamster[i].checkCollision(cannonball);
-    hamster[i].checkCollision2(cannonball);
+    hamster[i].checkCollision2(cannonball2);
     hamster[i].display();
   }
-  println(hasmterToSpawn + " " + totalHamstersKilled + " " + totalWaves);
 }
 
 void keyReleased() {
