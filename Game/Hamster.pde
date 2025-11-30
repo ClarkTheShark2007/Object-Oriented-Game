@@ -49,10 +49,14 @@ class Hamster {
   // if hit, change the fill color
   void checkCollision(Cannonball c) {
     hit = hamsterCannonball(c.cannonballX, c.cannonballY, c.cannonballRadius, hamsterLocation.x, hamsterLocation.y, hamstehw, hamstehh);
+    if(hit == true) {
+      c.hitHamster();
+    }
   }
 
   void checkCollision2(Cannonball2 c) {
     hit2 = hamsterCannonball2(c.cannonball2X, c.cannonball2Y, c.cannonball2Radius, hamsterLocation.x, hamsterLocation.y, hamstehw, hamstehh);
+    c.hitHamster();
   }
 
   void display() {

@@ -62,7 +62,7 @@ class Player2 {
   void checkPlayerPosistion() {
     if (hit == true) {
       direction = 0;
-      player2Location.x = player2Location.x + 25;
+      player2Location.x = player2Location.x + 50;
       player2Velocity.x = player2Velocity.x * 1;
     }
     if (player2Location.x <= -640)

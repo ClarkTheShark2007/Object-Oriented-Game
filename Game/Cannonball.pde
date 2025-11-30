@@ -44,4 +44,9 @@ class Cannonball {
       println("Cooldown!");
     }
   }
+  
+  void hitHamster() {
+    cannonballLocation.y = -9999;
+    fireCooldown = 0;
+  }
 }

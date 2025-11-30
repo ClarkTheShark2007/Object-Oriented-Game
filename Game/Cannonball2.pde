@@ -18,11 +18,11 @@ class Cannonball2 {
     fireCooldown2--;
     cannonball2X = cannonball2Location.x+632;
     cannonball2Y = cannonball2Location.y+657;
-    
+
     imageMode(CORNER);
     image(cannonBall, cannonball2Location.x, cannonball2Location.y);
     ellipseMode(CENTER);
-    fill(255,255,255,100);
+    fill(255, 255, 255, 100);
     //circle(cannonball2X, cannonball2Y, cannonball2Radius);
     if (isFired2 == true)
     {
@@ -43,5 +43,10 @@ class Cannonball2 {
     {
       println("Cooldown!");
     }
+  }
+
+  void hitHamster() {
+    cannonball2Location.y = -9999;
+    fireCooldown2 = 0;
   }
 }

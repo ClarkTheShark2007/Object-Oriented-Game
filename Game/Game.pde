@@ -8,10 +8,11 @@ Hamster[] hamster = new Hamster[100];
 PImage selected[];
 PImage grass;
 PImage wall[];
+PImage round;
 
 float stateCooldown = 120;
 boolean newGame = true;
-int P2Selected = 1;
+int P2Selected = 0;
 
 
 static int playerHealth = 1;
@@ -30,6 +31,7 @@ void setup() {
   cannonball2 = new Cannonball2();
 
   grass = loadImage("Grass.png");
+  round = loadImage("RoundsBar.png");
 
   selected = new PImage[2];
   selected[0] = loadImage("Selected0.png");
@@ -71,6 +73,7 @@ void draw() {
     player2.checkCollisionPlayer2(player);
     checkToSpawnHamsters();
     cannonball.drawCannonball();
+    drawUI();
     if (P2Selected == 1) {
       player2.drawPlayer();
       cannonball2.drawCannonball();
@@ -82,6 +85,15 @@ void drawBackground() {
   imageMode(CORNER);
   image(grass, 0, 0);
   image(wall[playerHealth], 0, 0);
+}
+
+void drawUI() {
+  imageMode(CORNER);
+  image(round, 0, 0);
+  textSize(32);
+  fill(255);
+  textAlign(CENTER);
+  text("Round " + totalWaves, width/2, 50);
 }
 
 void checkToSpawnHamsters()
@@ -106,8 +118,8 @@ void keyReleased() {
   if (key == 'a' || key == 'd') {
     player.direction = 0;
   }
-  
-  if(keyCode == LEFT || keyCode == RIGHT) {
+
+  if (keyCode == LEFT || keyCode == RIGHT) {
     player2.direction = 0;
   }
 }
