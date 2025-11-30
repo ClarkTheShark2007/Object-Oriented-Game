@@ -23,7 +23,7 @@ class Cannonball {
     image(cannonBall, cannonballLocation.x, cannonballLocation.y);
     ellipseMode(CENTER);
     fill(255,255,255,100);
-    circle(cannonballX, cannonballY, cannonballRadius);
+    //circle(cannonballX, cannonballY, cannonballRadius);
     if (isFired == true)
     {
       cannonballLocation.add(cannonballVelocity);
