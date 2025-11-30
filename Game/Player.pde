@@ -1,15 +1,23 @@
 class Player {
+  //Collison Guide code based off https://www.jeffreythompson.org/collision-detection/object_oriented_collision.php
 
+  //Class
   Player2 player2;
+  
+  //Image
   PImage playerBlue;
+  
+  //Player Varibles 
   PVector playerLocation = new PVector(-150, 0);
   PVector playerVelocity = new PVector(0, 0);
-  float playerX;
-  float playerY;
-  float playerRadius = 95;
   PVector playerLeftAcceleration = new PVector(-0.1, 0);
   PVector playerRightAcceleration = new PVector(0.1, 0);
   int direction = 3;
+  
+  //Player Collision 
+  float playerX;
+  float playerY;
+  float playerRadius = 95;
   boolean hit = false;
 
   Player() {
@@ -24,12 +32,9 @@ class Player {
     image(playerBlue, playerLocation.x, playerLocation.y);
     movePlayer();
     checkPlayerPosistion();
-    //println(direction);
-    //println(playerVelocity);
   }
 
   void checkCollisionPlayer1(Player2 p) {
-    println(hit);
     hit = playerToPlayer(playerX, playerY, playerRadius, p.player2X, p.player2Y, playerRadius);
   }
 

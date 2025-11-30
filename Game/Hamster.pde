@@ -1,20 +1,24 @@
 class Hamster {
   //Collison Guide code based off https://www.jeffreythompson.org/collision-detection/object_oriented_collision.php
 
+  //Images 
   PImage hamsterNormal[];
   PImage hamsterKnight[];
   PImage hamsterBomber[];
   PImage hamsterGunner[];
-
+  
+  //Hamster Stats - Chnaged depending on what hamster is selected 
+  float hamsterSpeed = 1;
+  float hitCooldown = 0;
+  float hamsterRangeCooldown = 120;
+  int hamsterHealth = 1;
+    
+  //Hamster Aniamtion Varibles 
+  int hamsterAnimationSpeed = 18;
   int hamsterFrame;
   int hamsterType = 1;
 
-  float hamsterSpeed = 1;
-  int hamsterHealth = 1;
-  int hamsterAnimationSpeed = 18;
-  float hitCooldown = 0;
-  float hamsterRangeCooldown = 120;
-
+  //Hamster Collisions
   float hamstehw;
   float hamstehh;
   PVector hamsterLocation = new PVector(0, 0);
@@ -23,6 +27,8 @@ class Hamster {
   boolean hit2 = false;
 
   Hamster (float _x, float _y, float _w, float _h) {
+    
+    //Load all hamster variations 
     hamsterNormal = new PImage[2];
     hamsterNormal[0] = loadImage("1Hamster0.png");
     hamsterNormal[1] = loadImage("1Hamster1.png");
@@ -39,39 +45,41 @@ class Hamster {
     hamsterGunner[0] = loadImage("4Hamster0.png");
     hamsterGunner[1] = loadImage("4Hamster1.png");
 
+    //Random starting location for each hamster 
     hamsterLocation.x = _x;
     hamsterLocation.y = _y;
     hamstehw = _w;
     hamstehh = _h;
   }
 
-  // draw the rectangle
-  // if hit, change the fill color
-  void checkCollision(Cannonball c) {
+  void checkCollision(Cannonball c) { //If Player 1 cannonball hits the hamster, set the bool to true and move cannonball off screen
     hit = hamsterCannonball(c.cannonballX, c.cannonballY, c.cannonballRadius, hamsterLocation.x, hamsterLocation.y, hamstehw, hamstehh);
-    if(hit == true) {
+    if (hit == true) {
       c.hitHamster();
     }
   }
 
-  void checkCollision2(Cannonball2 c) {
+  void checkCollision2(Cannonball2 c) { //If Player 2 cannonball hits the hamster, set the bool to true and move cannonball off screen
     hit2 = hamsterCannonball2(c.cannonball2X, c.cannonball2Y, c.cannonball2Radius, hamsterLocation.x, hamsterLocation.y, hamstehw, hamstehh);
-    c.hitHamster();
+    if (hit2 == true) {
+      c.hit2Hamster();
+    }
   }
 
   void display() {
     hitCooldown--;
 
-    if (hit && hitCooldown <= 0 || hit2 && hitCooldown <= 0 )
+    if (hit && hitCooldown <= 0 || hit2 && hitCooldown <= 0 ) //If the hasmter has been hit by any cannonball AND hasnt been in last 30 frames then take damage
     {
       hitCooldown = 30;
       hamsterHealth--;
-      if (hamsterHealth <= 0) {
+      if (hamsterHealth <= 0) { //If the hamster has less then or eqaule to 0 health then, draw it off screen and add to total hamsters killed
         Game.totalHamstersKilled++;
         hamsterLocation.x = -9999;
         hamsterLocation.y = -9999;
       }
     }
+    //Draws hamster bassed off the hamsterType choosen 
     if (hamsterHealth >= 0 && hamsterType == 1) {
       normalHamster();
     } else if (hamsterHealth >= 0 && hamsterType == 2)
@@ -86,29 +94,29 @@ class Hamster {
     }
   }
 
-  void respawn() {
+  void respawn() { //Resets all hamster positions after being called to respawn current dead hamster
     randomHamster();
-    hamsterLocation.x = int(random(50, width-50));
-    hamsterLocation.y = int(random(-100, -300));
+    hamsterLocation.x = random(50, width-50);
+    hamsterLocation.y = random(-100, -300);
     totalHamstersKilled = 0;
   }
 
-  void hamsterAttack() {
+  void hamsterAttack() { //Checks for if the hamster is at the wall through a y position, if yes then damage player and play a sound 
     if (hamsterLocation.y >= 724)
     {
       playerHealth--;
       hamsterLocation.x = int(random(50, width-50));
       hamsterLocation.y = int(random(-300, -100));
-      if(hamsterType == 3) {
+      if (hamsterType == 3) { //If it is a bomb hamster play blow up sound instead 
         explosion.play();
-      } else 
+      } else
       {
         broken.play();
       }
     }
   }
 
-  void hamsterRangeAttack() {
+  void hamsterRangeAttack() { //Only used with gunner hamster, same as regaulr attack BUT stops 1/3rd of the screen to shoot at the player 
     if (hamsterLocation.y >= height/3)
     {
       hamsterSpeed = 0;
@@ -121,7 +129,8 @@ class Hamster {
       }
     }
   }
-  void randomHamster() {
+  
+  void randomHamster() { //Chooses what hamsters will spawn depending on what wave it is, starting with simple hamsters to more complex
     if (totalWaves == 1) {
       hamsterType = int(random(1, 2));
     } else if (totalWaves <= 6) {
@@ -130,7 +139,7 @@ class Hamster {
       hamsterType = int(random(1, 5));
     }
 
-    hamsterType = int(random(1, 5));
+    //Sets the diffrent hamster stats depending on what was choosen
     if (hamsterType == 1) {
       hamsterSpeed = 1;
       hamsterHealth = 1;
@@ -153,6 +162,7 @@ class Hamster {
     }
   }
 
+//All the diffrent hamster types, includes diffrent drawing of images and diffrent attacks
   void normalHamster() {
     if (frameCount % hamsterAnimationSpeed == 0) {
       hamsterFrame = (hamsterFrame + 1) %  hamsterNormal.length;
@@ -194,6 +204,8 @@ class Hamster {
   }
 }
 
+
+//Collision between Hamster to Cannonball, used from https://www.jeffreythompson.org/collision-detection/object_oriented_collision.php
 boolean hamsterCannonball(float cx, float cy, float radius, float hx, float hy, float hw, float hh) {
 
   // temporahy variables to set edges for testing

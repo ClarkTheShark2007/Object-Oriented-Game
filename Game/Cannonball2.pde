@@ -1,5 +1,6 @@
 class Cannonball2 {
-
+  //Cannonball2 IS indentical TO Cannonball besides diffrent varible names, for comments at code look at Cannonball. Cannonball2 is used by player2! 
+  
   PImage cannonBall;
   float fireCooldown2 = 0;
   boolean isFired2 = false;
@@ -21,32 +22,24 @@ class Cannonball2 {
 
     imageMode(CORNER);
     image(cannonBall, cannonball2Location.x, cannonball2Location.y);
-    ellipseMode(CENTER);
-    fill(255, 255, 255, 100);
-    //circle(cannonball2X, cannonball2Y, cannonball2Radius);
     if (isFired2 == true)
     {
       cannonball2Location.add(cannonball2Velocity);
     }
-    //println("Fire!");
   }
 
   void shootCannonball(float playerPostion) {
     if (fireCooldown2 <= 0)
     {
       fire.play();
-      cannonball2Location.x = playerPostion;
       cannonball2Location.y = 100;
+      cannonball2Location.x = playerPostion;
       isFired2 = true;
       fireCooldown2 = 120;
-      println("Fire!");
-    } else
-    {
-      println("Cooldown!");
-    }
+    } 
   }
 
-  void hitHamster() {
+  void hit2Hamster() {
     cannonball2Location.y = -9999;
     fireCooldown2 = 0;
   }

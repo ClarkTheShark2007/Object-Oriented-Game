@@ -26,7 +26,6 @@ class Player2 {
   }
 
   void checkCollisionPlayer2(Player p) {
-    println(hit);
     hit = playerToPlayer(player2X, player2Y, playerRadius, p.playerX, p.playerY, playerRadius);
   }
 
