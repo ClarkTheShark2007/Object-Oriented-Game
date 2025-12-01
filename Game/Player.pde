@@ -25,7 +25,7 @@ class Player {
     player2 = new Player2();
   }
 
-  void drawPlayer() {
+  void drawPlayer() { //Constantly drawing the player sprite based off current posistion
     playerX = playerLocation.x + 642;
     playerY = 950;
     imageMode(CORNER);
@@ -34,19 +34,19 @@ class Player {
     checkPlayerPosistion();
   }
 
-  void checkCollisionPlayer1(Player2 p) {
+  void checkCollisionPlayer1(Player2 p) { //Only active IF player 2 was selected in the title menu, checks to see if player 1 and 2 are colliding with each other
     hit = playerToPlayer(playerX, playerY, playerRadius, p.player2X, p.player2Y, playerRadius);
   }
 
-  void movePlayer() {
-    if (direction == -1) {
+  void movePlayer() { //Changes current acceleration AND velocity depending on what the vlaue the direction is currently set too. Direction determined by Game script 
+    if (direction == -1) { //Left Movement
       playerVelocity.add(playerLeftAcceleration);
       playerLocation.add(playerVelocity);
-    } else if (direction == 1)
+    } else if (direction == 1) //Right movement
     {
       playerVelocity.add(playerRightAcceleration);
       playerLocation.add(playerVelocity);
-    } else if (direction == 0)
+    } else if (direction == 0) //Slow down player if no input is being decected
     {
       playerLocation.add(playerVelocity);
       if (playerVelocity.x < 0)
@@ -65,27 +65,25 @@ class Player {
     }
   }
 
-  void checkPlayerPosistion() {
+  void checkPlayerPosistion() { //Checks to see if current player is going off the screen, if so then bounce them in the other direction and change current velcoity to match new direction
     if (hit == true) {
       direction = 0;
       playerLocation.x = playerLocation.x - 50;
       playerVelocity.x = playerVelocity.x * -1;
     }
-    if (playerLocation.x <= -640)
+    if (playerLocation.x <= -640) //Left Screen
     {
       direction = 0;
       playerLocation.x = playerLocation.x + 10;
       playerVelocity.x = playerVelocity.x * -1;
     }
-    if (playerLocation.x >= 640)
+    if (playerLocation.x >= 640) //Right screen
     {
       direction = 0;
       playerLocation.x = playerLocation.x - 10;
       playerVelocity.x = playerVelocity.x * -1;
     }
   }
-
-
 
   boolean playerToPlayer(float c1x, float c1y, float c1r, float c2x, float c2y, float c2r) {
 

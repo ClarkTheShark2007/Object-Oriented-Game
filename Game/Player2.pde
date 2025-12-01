@@ -1,4 +1,5 @@
 class Player2 {
+  //Player2 IS indentical TO Player besides diffrent varible names, for comments at code look at Player. Player2 is used by player 2 and will only be used IF selected! 
 
   PImage playerRed;
   PVector player2Location = new PVector(+150, 0);
