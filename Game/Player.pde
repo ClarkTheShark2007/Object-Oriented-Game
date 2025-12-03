@@ -34,9 +34,11 @@ class Player {
     checkPlayerPosistion();
   }
 
+//Adapted from Collison guide
   void checkCollisionPlayer1(Player2 p) { //Only active IF player 2 was selected in the title menu, checks to see if player 1 and 2 are colliding with each other
     hit = playerToPlayer(playerX, playerY, playerRadius, p.player2X, p.player2Y, playerRadius);
   }
+//Adapted from Collison guide
 
   void movePlayer() { //Changes current acceleration AND velocity depending on what the vlaue the direction is currently set too. Direction determined by Game script 
     if (direction == -1) { //Left Movement
@@ -85,6 +87,7 @@ class Player {
     }
   }
 
+//Collision between Player to Player, used from https://www.jeffreythompson.org/collision-detection/object_oriented_collision.php
   boolean playerToPlayer(float c1x, float c1y, float c1r, float c2x, float c2y, float c2r) {
 
     // get distance between the circle's centers

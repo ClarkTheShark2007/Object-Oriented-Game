@@ -52,6 +52,7 @@ class Hamster {
     hamstehh = _h;
   }
 
+//Adapted from Collison guide
   void checkCollision(Cannonball c) { //If Player 1 cannonball hits the hamster, set the bool to true and move cannonball off screen
     hit = hamsterCannonball(c.cannonballX, c.cannonballY, c.cannonballRadius, hamsterLocation.x, hamsterLocation.y, hamstehw, hamstehh);
     if (hit == true) {
@@ -65,6 +66,7 @@ class Hamster {
       c.hit2Hamster();
     }
   }
+//Adapted from Collison guide
 
   void display() {
     hitCooldown--;
@@ -74,7 +76,7 @@ class Hamster {
       hitCooldown = 30;
       hamsterHealth--;
       if (hamsterHealth <= 0) { //If the hamster has less then or eqaule to 0 health then, draw it off screen and add to total hamsters killed
-        Game.totalHamstersKilled++;
+        totalHamstersKilled++;
         hamsterLocation.x = -9999;
         hamsterLocation.y = -9999;
       }
