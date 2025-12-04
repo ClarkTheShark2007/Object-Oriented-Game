@@ -40,6 +40,6 @@ class States {
     }
     imageMode(CORNER);
     background(0);
-    image(titleAnimation[titleFrame], 0, 0);
+    image(titleAnimation[titleFrame], 0, 100);
   }
 }

@@ -39,6 +39,7 @@ static int totalWaves = 0;
 
 
 void setup() {
+  //fullScreen(P2D);
   size(1280, 1024, P2D);
   frameRate(60);
   
@@ -85,7 +86,7 @@ void draw() {
   if (newGame == true) { //If the game has been opened OR restarted, bool will become true only drawing the title screen
     state.title();
     imageMode(CORNER);
-    image(selected[P2Selected], 0, 0); //Visual indicator of what option the player is currently selected
+    image(selected[P2Selected], 0, 100); //Visual indicator of what option the player is currently selected
   }
   if (playerHealth <= 0) { //Game over checker, if the player is 0 HP, itll restart the varibles back to default and will await input to bring the player back to title screen
     state.gameOver();
@@ -119,11 +120,11 @@ void drawBackground() {
 
 void drawUI() {
   imageMode(CORNER);
-  image(round, 0, 0);
+  image(round, 0, 10);
   textSize(42);
   fill(255);
   textAlign(CENTER);
-  text("Round " + totalWaves, width/2, 50);
+  text("Round " + totalWaves, width/2, 70);
 }
 
 void checkToSpawnHamsters()
